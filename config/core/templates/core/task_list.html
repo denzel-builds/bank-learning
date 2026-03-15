@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+</head>
+<body>
+
+<p>
+{% if user.is_authenticated %}
+    Hello {{ user.username }} |
+   <form action="/logout/" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% else %}
+    <a href="/login/">Login</a> |
+    <a href="/register/">Register</a>
+{% endif %}
+</p>
+    <h1>My Tasks</h1>
+    <a href="/tasks/create/">➕ Create New Task</a>
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="/tasks/{{ task.id }}/">
+                    {{ task.title }}
+                </a> 
+                - 
+                {% if task.completed %}
+                    ✅ Completed
+                {% else %}
+                    ❌ Not completed
+                {% endif %}
+
+            </li>
+        {% empty %}
+            <li>No tasks yet.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

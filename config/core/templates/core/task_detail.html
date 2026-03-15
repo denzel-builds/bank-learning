@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ task.title }}</title>
+</head>
+<body>
+    <h1>{{ task.title }}</h1>
+
+    <p>{{ task.description }}</p>
+
+    <p>Status:
+        {% if task.completed %}
+            ✅ Completed
+        {% else %}
+            ❌ Not completed
+        {% endif %}
+    </p>
+
+    <a href="/tasks/">⬅ Back to tasks</a><br>
+    <a href="/tasks/{{ task.id }}/edit/"> Edit Task</a><br>
+    <a href="/tasks/{{ task.id }}/delete/">Delete Task</a>
+    
+</body>
+</html>
