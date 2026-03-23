@@ -1,43 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Task List</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
 
-<p>
-{% if user.is_authenticated %}
-    Hello {{ user.username }} |
-   <form action="/logout/" method="POST" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
-{% else %}
-    <a href="/login/">Login</a> |
-    <a href="/register/">Register</a>
-{% endif %}
-</p>
-    <h1>My Tasks</h1>
-    <a href="/tasks/create/">➕ Create New Task</a>
+{% block title %}My Tasks{% endblock %}
 
-    <ul>
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Tasks</h2>
+    <a href="/tasks/create/" class="btn btn-primary">➕ New Task</a>
+</div>
+
+{% if tasks %}
+    <div class="list-group">
         {% for task in tasks %}
-            <li>
-                <a href="/tasks/{{ task.id }}/">
-                    {{ task.title }}
-                </a> 
-                - 
+            <a href="/tasks/{{ task.id }}/" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span>{{ task.title }}</span>
                 {% if task.completed %}
-                    ✅ Completed
+                    <span class="badge bg-success">✅ Completed</span>
                 {% else %}
-                    ❌ Not completed
+                    <span class="badge bg-secondary">❌ Pending</span>
                 {% endif %}
-
-            </li>
-        {% empty %}
-            <li>No tasks yet.</li>
+            </a>
         {% endfor %}
-    </ul>
-
-</body>
-</html>
+    </div>
+{% else %}
+    <div class="alert alert-info">You have no tasks yet. Create one above!</div>
+{% endif %}
+{% endblock %}
