@@ -6,7 +6,8 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.config.settings")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # bank-learning/config/
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")  # ← remove one 'config'
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
