@@ -1,30 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Task</title>
-</head>
-<body>
-
-<h1>Create New Task</h1>
-
-<form method="POST">
-    {% csrf_token %}
-
-    <label>Title:</label>
-    <input type="text" name="title">
-
-    <br><br>
-
-    <label>Description:</label>
-    <textarea name="description"></textarea>
-
-    <br><br>
-
-    <button type="submit">Create Task</button>
-</form>
-
-<br>
-<a href="/tasks/">⬅ Back to Tasks</a>
-
-</body>
-</html>
+{% extends 'core/base.html' %}
+{% block title %}New Task - Taskify{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-4">Create New Task</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Title</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea name="description" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Create Task</button>
+                        <a href="/tasks/" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,22 @@
-<h2>Register</h2>
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit">Create Account</button>
-</form>
-
-<p>
-Already have an account?
-<a href="/login/">Login</a>
-</p>
+{% extends 'core/base.html' %}
+{% block title %}Register - Taskify{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm mt-5">
+            <div class="card-body p-4">
+                <h3 class="card-title text-center mb-4 text-primary fw-bold">Create an Account</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-success">Create Account</button>
+                    </div>
+                </form>
+                <hr>
+                <p class="text-center mb-0">Already have an account? <a href="/login/">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
