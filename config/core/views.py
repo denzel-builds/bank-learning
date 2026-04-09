@@ -11,7 +11,32 @@ from .serializers import TaskSerializer
 @login_required
 def task_list(request):
     tasks = Task.objects.filter(user=request.user)
-    return render(request, 'core/task_list.html', {'tasks': tasks})
+
+    # SEARCH — checks if ?search=something is in the URL
+    search = request.GET.get('search', '')
+    if search:
+        tasks = tasks.filter(title__icontains=search)  # icontains = case-insensitive search
+
+    # FILTER BY STATUS
+    status = request.GET.get('status', '')
+    if status == 'completed':
+        tasks = tasks.filter(completed=True)
+    elif status == 'pending':
+        tasks = tasks.filter(completed=False)
+
+    # FILTER BY PRIORITY
+    priority = request.GET.get('priority', '')
+    if priority in ['low', 'medium', 'high']:
+        tasks = tasks.filter(priority=priority)
+
+    # Pass search and filter values back to template so the form remembers them
+    context = {
+        'tasks': tasks,
+        'search': search,
+        'status': status,
+        'priority': priority,
+    }
+    return render(request, 'core/task_list.html', context)
 
 @login_required
 def task_detail(request, pk):

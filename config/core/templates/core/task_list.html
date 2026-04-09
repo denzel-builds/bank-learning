@@ -1,10 +1,37 @@
 {% extends 'core/base.html' %}
 {% block title %}My Tasks - Taskify{% endblock %}
 {% block content %}
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold">My Tasks</h2>
     <a href="/tasks/create/" class="btn btn-primary">+ New Task</a>
 </div>
+
+<!-- SEARCH AND FILTER FORM -->
+<form method="GET" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="search" class="form-control" placeholder="Search tasks..." value="{{ search }}">
+    </div>
+    <div class="col-md-3">
+        <select name="status" class="form-select">
+            <option value="">All Statuses</option>
+            <option value="completed" {% if status == 'completed' %}selected{% endif %}>Completed</option>
+            <option value="pending" {% if status == 'pending' %}selected{% endif %}>Pending</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="priority" class="form-select">
+            <option value="">All Priorities</option>
+            <option value="low" {% if priority == 'low' %}selected{% endif %}>Low</option>
+            <option value="medium" {% if priority == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="high" {% if priority == 'high' %}selected{% endif %}>High</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+    </div>
+</form>
+
 {% if tasks %}
     <div class="row">
         {% for task in tasks %}
@@ -20,6 +47,20 @@
                         {% endif %}
                     </div>
                     <p class="card-text text-muted">{{ task.description|truncatewords:15 }}</p>
+                    <div class="d-flex gap-2 mb-2">
+                        <!-- Priority badge with colour coding -->
+                        {% if task.priority == 'high' %}
+                            <span class="badge bg-danger">High Priority</span>
+                        {% elif task.priority == 'medium' %}
+                            <span class="badge bg-warning text-dark">Medium Priority</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Low Priority</span>
+                        {% endif %}
+                        <!-- Due date -->
+                        {% if task.due_date %}
+                            <span class="badge bg-info text-dark">Due: {{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
                     <a href="/tasks/{{ task.id }}/" class="btn btn-sm btn-outline-primary">View</a>
                     <a href="/tasks/{{ task.id }}/edit/" class="btn btn-sm btn-outline-secondary">Edit</a>
                     <a href="/tasks/{{ task.id }}/delete/" class="btn btn-sm btn-outline-danger">Delete</a>
@@ -29,6 +70,6 @@
         {% endfor %}
     </div>
 {% else %}
-    <div class="alert alert-info">You have no tasks yet. Click <strong>New Task</strong> to get started!</div>
+    <div class="alert alert-info">No tasks found. Try a different search or <a href="/tasks/">clear filters</a>.</div>
 {% endif %}
 {% endblock %}

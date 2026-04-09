@@ -13,6 +13,29 @@
         </div>
         <p class="text-muted">{{ task.description }}</p>
         <hr>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Priority:</strong>
+                {% if task.priority == 'high' %}
+                    <span class="badge bg-danger">High</span>
+                {% elif task.priority == 'medium' %}
+                    <span class="badge bg-warning text-dark">Medium</span>
+                {% else %}
+                    <span class="badge bg-secondary">Low</span>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <strong>Due Date:</strong>
+                {% if task.due_date %}
+                    {{ task.due_date }}
+                {% else %}
+                    <span class="text-muted">Not set</span>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <strong>Created:</strong> {{ task.created_at|date:"d M Y" }}
+            </div>
+        </div>
         <a href="/tasks/{{ task.id }}/edit/" class="btn btn-outline-secondary">Edit</a>
         <a href="/tasks/{{ task.id }}/delete/" class="btn btn-outline-danger">Delete</a>
         <a href="/tasks/" class="btn btn-outline-primary">Back to Tasks</a>
