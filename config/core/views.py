@@ -103,30 +103,39 @@ def register(request):
 @api_view(['GET'])
 def api_task_list(request):
     tasks = Task.objects.filter(user=request.user)
+    
+    # Search support in API too
+    search = request.query_params.get('search', '')
+    if search:
+        tasks = tasks.filter(title__icontains=search)
+    
+    # Filter by priority
+    priority = request.query_params.get('priority', '')
+    if priority in ['low', 'medium', 'high']:
+        tasks = tasks.filter(priority=priority)
+
     serializer = TaskSerializer(tasks, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
 def api_create_task(request):
     serializer = TaskSerializer(data=request.data)
-
     if serializer.is_valid():
         serializer.save(user=request.user)
+        return Response(serializer.data, status=201)  # 201 = Created
+    return Response(serializer.errors, status=400)  # 400 = Bad request
 
-    return Response(serializer.data)
-
-@api_view(['PUT'])
+@api_view(['PUT', 'PATCH'])
 def api_update_task(request, pk):
-    task = Task.objects.get(id=pk, user=request.user)
+    task = get_object_or_404(Task, id=pk, user=request.user)
     serializer = TaskSerializer(instance=task, data=request.data, partial=True)
-
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
 
 @api_view(['DELETE'])
 def api_delete_task(request, pk):
-    task = Task.objects.get(id=pk, user=request.user)
+    task = get_object_or_404(Task, id=pk, user=request.user)
     task.delete()
-    return Response({"message": "Task deleted successfully"})
+    return Response({"message": "Task deleted successfully"}, status=204)  # 204 = No content
