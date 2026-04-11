@@ -3,7 +3,7 @@
 A full-stack task management web application built with Django and Django REST Framework, featuring user authentication, a REST API with token authentication, and live deployment.
 
 ## Live Demo
-🌐 [https://bank-learning.onrender.com](https://bank-learning.onrender.com)
+🌐 [https://taskify.onrender.com](https://taskify.onrender.com)
 
 ## Features
 - User registration and authentication
