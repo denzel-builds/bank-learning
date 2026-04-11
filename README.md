@@ -98,4 +98,9 @@ python config/manage.py runserver
 - GitHub: https://github.com/denzel-builds
 
 ## Screenshots
-*Coming soon*
+
+![Login Page](screenshots/login_page.png)
+![Register Page](screenshots/register_page.png)
+![Task List Empty](screenshots/task_list(empty).png)
+![Create Task](screenshots/create_task_form.png)
+![Task List](screenshots/task_list(tasks).png)
