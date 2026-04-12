@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['taskify.onrender.com' , 'bank-learning.onrender.com']
+ALLOWED_HOSTS = ['bank-learning.onrender.com']
 
 
 # Application definition
